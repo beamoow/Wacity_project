@@ -1,0 +1,78 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<style>
+
+.container{
+    margin-top: 100px;
+    margin-left: 300px;
+}
+
+.img-fluid{
+      object-fit: fill;
+      float: none;
+      width: 360px;
+      height: 400px;
+    }
+    .checked {
+        color: orange;
+    }
+</style>
+
+<div class="container">
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+    <main class="pt-5">
+        <div class="row g-3">
+            <div class="card shadow-sm" style="margin-left: 100px; margin-right: 13px;">
+                <img class="img-fluid" alt="Responsive image" src="{{ product.picture.url }}" >
+              </div>
+            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
+                <h1 class="mb-0 h4">{{ product.title }}</h1>
+                <p><span class="lead">{{ product.seller }}</span> (seller)</p>
+                <p>{{ product.description|slice:":355" }}</p>
+                <div class="border">
+                    <div class="col border-bottom">
+                        <div class="row p-3">
+                            <div class="col-6">{{ product.color }}</div>
+                            <div class="col-6 text-end"><span class="h4 fw-bold">{{ product.price }}</span></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row p-3">
+                            <div class="col-6">color : {{ product.color }}</div>
+
+                            <form action="{% url 'store:item' %}" method="post"> 
+                                {% csrf_token %}    
+                                <input type="hidden" name="pk" value="{{product.pk}}">
+                                <input type="hidden" name="price" value="{{product.price}}">
+
+                                <input type="submit" value="Add to cart" class="uk-button uk-button-default">
+                            </form>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="my-3">Reviews - <span class="avg-rating">{{avg_reviews.avg_rating}}</span>/5 <i class="fa fa-star checked"></i>
+        </h3>
+    </main>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
