@@ -1,5 +1,6 @@
+from functools import total_ordering
 from django.shortcuts import render, redirect, get_object_or_404
-from store.models import Profile, Product, Category , Review
+from store.models import  Product, Category , Review 
 from store.forms import ProfileForm, NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -49,7 +50,7 @@ def product_detail(request, slug):
     reviews=Review.objects.filter(product=product)
     avg_reviews=Review.objects.filter(product=product).aggregate(avg_rating=Avg('ratings'))
     return render(request, 'store/products/detail.html', {'product': product,'reviews':reviews,'avg_reviews':avg_reviews})
-    
+    # return render(request, 'store/products/detail.html', {'product': product})
 
 
 
@@ -232,5 +233,51 @@ def profile(request):
 
 
 
+from django.http import HttpResponse
+from PIL import Image
+import libscrc
+import qrcode
+
+def calculate_crc(code):
+    crc = libscrc.ccitt_false(str.encode(code))
+    crc = str(hex(crc))
+    crc = crc[2:].upper()
+    return crc.rjust(4, '0')
+
+def gen_code(mobile="", nid="", amount=1.23):
+    code="00020101021153037645802TH29370016A000000677010111"
+    if mobile:
+        tag,value = 1,"0066"+mobile[1:]
+        seller='{:02d}{:02d}{}'.format(tag,len(value), value)
+    elif nid:
+        tag,value = 2,nid
+        seller='{:02d}{:02d}{}'.format(tag,len(value), value)
+    else:
+        raise Exception("Error: gen_code() does not get seller mandatory details")
+    code+=seller
+    tag,value = 54, '{:.2f}'.format(amount)
+    code+='{:02d}{:02d}{}'.format(tag,len(value), value)
+    code+='6304'
+    code+=calculate_crc(code)
+    return code
+
+def get_qr(request,mobile="",nid="",amount=""):
+    message="mobile: %s, nid: %s, amount: %s"%(request.mobile,request.nid,request.amount)
+    print( message )
+    code=gen_code(mobile=mobile, amount=float(amount))#scb
+    print(code)
+    img = qrcode.make(code,box_size=4)
+    response = HttpResponse(content_type='image/png')
+    img.save(response, "PNG")
+    return response
+
+def checkout(request):
+    # context={
+    #     "mobile":"0854151951", #seller's mobile
+    #     "amount": 2.81619
+    # }
+    amount = 2.81619
+    context={"total_price":amount, "mobile":"0854151951"}
+    return render(request, 'store/products/checkout.html', context)
 
 

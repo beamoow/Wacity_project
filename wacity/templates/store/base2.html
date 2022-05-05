@@ -8,7 +8,14 @@
     <title>Document</title>
 </head>
 <body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+    body {
+      font-family: "Mulish", sans-serif;
+    }
 
+
+</style>
         
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #E1C1A0;">
@@ -37,6 +44,9 @@
                 {% endif %}
               </ul>
             </div>
+            <form class="d-flex" action="/search">
+              <input name="q" class="form-control me-2" type="search" placeholder="Search" />
+            </form>
           </nav>
 
     {% block content %}

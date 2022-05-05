@@ -18,6 +18,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-la1rjkm8fx@#duo-f$qee6t41dk)lmj%nmvddcv)x&*ueb^ew6'
+PUBLIC_KEY ='pk_test_51Kg4v7DDcWvZLBqXylB4yjfxqImtbs3hqoqwh2YU8CvSZAXhJoe1VSrckz6eETgZ5Sswos4KnSVcXSthLYbLdPQL00oJXbYFd1'
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'django.contrib.sites', #new
     'allauth', #new
     'allauth.account', #new

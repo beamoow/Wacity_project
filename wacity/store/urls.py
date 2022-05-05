@@ -35,5 +35,7 @@ urlpatterns = [
     path('mycart', views.mycart, name='mycart'),
     path('pluscart', views.pluscart, name='pluscart'),
     path('minuscart', views.minuscart, name='minuscart'),
-
+    path('qr_mobile/<mobile>/<amount>/qr.png', views.get_qr, name='qr'),
+    path('qr_nid/<nid>/<amount>/', views.get_qr, name='qr'),
+    path('checkout/',views.checkout, name='checkout'),
 ]

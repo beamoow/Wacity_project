@@ -1,4 +1,4 @@
-{% extends 'store/base2.html' %}
+{% extends 'store/base3.html' %}
 {% load crispy_forms_tags %}         
 {% block content %} 
 <!--Register--> 
@@ -6,8 +6,9 @@
 	<h1>Register</h1>
 	<form method="POST">
 		{% csrf_token %}
-		{{ register_form|crispy }}                    
-		<button class="btn btn-primary" type="submit">Register</button>
+		{{ register_form|crispy }}
+		<input type="submit" value="Register" style="background-color: #DA8751; color: white; border: none; width: 100px; height: 50px; border-radius: 5px; ">                    
+
 	</form>
 	<p class="text-center">If you already have an account, <a href="/accounts/login">login</a> instead.</p>
 </div>
